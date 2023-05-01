@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import BasketTable from "./BasketTable";
 
 const Basket = () => {
-    const {basket} = useSelector(state => state)
+    const {basket} = useSelector(state => state.basket)
     const total = basket.reduce((acc, el) => {
         return acc + el.count * el.price
     }, 0)
@@ -43,7 +43,7 @@ const Basket = () => {
                 </tbody>
             </table>
             <div>
-                <h1 className="text-2xl text-black">Total : {total}$</h1>
+                {total === 0 ? null : <h1 className="text-2xl text-black">Total : {total}$</h1>}
             </div>
         </div>
 

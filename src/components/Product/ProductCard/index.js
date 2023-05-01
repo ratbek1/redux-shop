@@ -1,29 +1,26 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {GrBasket} from "react-icons/gr";
 import {Link} from "react-router-dom";
 import {AiTwotoneHeart} from "react-icons/ai";
 
 const ProductCard = ({el}) => {
-    const [button, setButton] = useState(false)
     const dispatch = useDispatch()
-    const {favorites} = useSelector(state => state)
+    const {favorites} = useSelector(state => state.favorites)
+    const {basket} = useSelector(state => state.basket)
     const heart = favorites.some(some => some.id === el.id)
+    const bas = basket.some(some => some.id === el.id)
      const addBasket = () => {
         dispatch({type: "ADD_TO_BASKET", payload: el})
-     }
-     const btnBas = () => {
-        setButton(!button)
      }
      const favoriteBtn = () => {
         dispatch({type:"ADD_TO_FAVORITE", payload:el})
      }
     return (
-
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-500 dark:border-gray-700">
-            <a href="#">
+            <Link to={`/details/${el.id}`}>
                 <img className="p-8 rounded-t-lg" src={el.image} alt="product image"/>
-            </a>
+            </Link>
             <div className="px-5 pb-5">
                 <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{el.title}</h2>
                 <a href="#">
@@ -59,7 +56,7 @@ const ProductCard = ({el}) => {
                         className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
                 </div>
                 <div className="flex items-center justify-between">
-                    <span className="text-3xl font-bold text-gray-900 dark:text-white">{el.price} сом</span>
+                    <span className="text-3xl font-bold text-gray-900 dark:text-white">{el.price} $</span>
               <div>
                   <button onClick={favoriteBtn}
                           className="text-black bg-gradient-to-r from-white via-white to-white hover:bg-gradient-to-br  dark:focus:ring-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
@@ -67,16 +64,13 @@ const ProductCard = ({el}) => {
                   </button>
 
                   {
-                      button ? <Link to={"/basket"}>
+                      bas ? <Link to={"/basket"}>
                               <button
                                   className="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                                   <GrBasket/>
                               </button>
                           </Link>
-                          : <button onClick={() => {
-                              addBasket()
-                              btnBas()
-                          }}
+                          : <button onClick={addBasket}
                                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                               Купить</button>
                   }

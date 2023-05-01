@@ -3,7 +3,8 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 const Header = () => {
-    const {basket, favorites} = useSelector(state => state)
+    const {basket} = useSelector(state => state.basket)
+    const {favorites} = useSelector(state => state.favorites)
     return (
         <nav className="border-b-2 border-t-2 z-20 dark:bg-black sticky top-0 w-full">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
